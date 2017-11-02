@@ -13,5 +13,12 @@ RSpec.describe Definition::Model, type: :model do
                      class_name('Definition::Attribute').
                      inverse_of(:definition_model)
     end
+
+    describe 'nested attributes' do
+      it do
+        is_expected.to accept_nested_attributes_for(:definition_attributes).
+                       allow_destroy(true)
+      end
+    end
   end
 end

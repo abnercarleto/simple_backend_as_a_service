@@ -6,4 +6,6 @@ class Definition::Model < ApplicationRecord
   validates :name,
             presence: true,
             uniqueness: true
+
+  accepts_nested_attributes_for :definition_attributes, allow_destroy: true, reject_if: :blank?
 end
