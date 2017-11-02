@@ -10,10 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171102053335) do
+ActiveRecord::Schema.define(version: 20171102130738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "api_resources", force: :cascade do |t|
+    t.bigint "definition_model_id", null: false
+    t.jsonb "content", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["definition_model_id"], name: "index_api_resources_on_definition_model_id"
+  end
 
   create_table "definition_attributes", force: :cascade do |t|
     t.string "name", null: false
@@ -32,5 +40,6 @@ ActiveRecord::Schema.define(version: 20171102053335) do
     t.index ["name"], name: "index_definition_models_on_name", unique: true
   end
 
+  add_foreign_key "api_resources", "definition_models"
   add_foreign_key "definition_attributes", "definition_models"
 end

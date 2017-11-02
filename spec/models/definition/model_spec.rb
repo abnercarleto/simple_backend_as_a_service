@@ -15,6 +15,13 @@ RSpec.describe Definition::Model, type: :model do
                      dependent(:destroy)
     end
 
+    it do
+      is_expected.to have_many(:api_resources).
+                     class_name('Api::Resource').
+                     inverse_of(:definition_model).
+                     dependent(:destroy)
+    end
+
     describe 'nested attributes' do
       it do
         is_expected.to accept_nested_attributes_for(:definition_attributes).

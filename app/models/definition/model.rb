@@ -4,6 +4,11 @@ class Definition::Model < ApplicationRecord
            foreign_key: :definition_model_id,
            inverse_of: :definition_model,
            dependent: :destroy
+ has_many :api_resources,
+          class_name: 'Api::Resource',
+          foreign_key: :definition_model_id,
+          inverse_of: :definition_model,
+          dependent: :destroy
 
   validates :name,
             presence: true,
