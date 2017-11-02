@@ -1,7 +1,9 @@
 class Definition::Model < ApplicationRecord
   has_many :definition_attributes,
            class_name: 'Definition::Attribute',
-           inverse_of: :definition_model
+           foreign_key: :definition_model_id,
+           inverse_of: :definition_model,
+           dependent: :destroy
 
   validates :name,
             presence: true,

@@ -11,7 +11,8 @@ RSpec.describe Definition::Model, type: :model do
     it do
       is_expected.to have_many(:definition_attributes).
                      class_name('Definition::Attribute').
-                     inverse_of(:definition_model)
+                     inverse_of(:definition_model).
+                     dependent(:destroy)
     end
 
     describe 'nested attributes' do
