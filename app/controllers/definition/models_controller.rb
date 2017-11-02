@@ -5,12 +5,12 @@ class Definition::ModelsController < ApplicationController
   def index
     @definition_models = Definition::Model.all
 
-    render json: @definition_models
+    render json: @definition_models, include: :definition_attributes
   end
 
   # GET /definition/models/1
   def show
-    render json: @definition_model
+    render json: @definition_model, include: :definition_attributes
   end
 
   # POST /definition/models
