@@ -16,9 +16,9 @@ class Api::ResourcesController < ApplicationController
 
   # POST /definition/models
   def create
-    @api_resource = Api::Resource.new(definition_model: @definition_model, content: api_resource_params)
+    @api_resource = Api::Resource.new(definition_model: @definition_model)
 
-    if @api_resource.save
+    if !SaveResource.new(@api_resource, api_resource_params).call.errors.any?
       render json: @api_resource.content,
              status: :created,
              location: api_resource_path(@definition_model.slug, @api_resource.id)
@@ -29,7 +29,7 @@ class Api::ResourcesController < ApplicationController
 
   # PATCH/PUT /definition/models/1
   def update
-    if @api_resource.update(content: api_resource_params)
+    if !SaveResource.new(@api_resource, api_resource_params).call.errors.any?
       render json: @api_resource.content
     else
       render json: @definition_model.errors, status: :unprocessable_entity
