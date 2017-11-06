@@ -5,7 +5,12 @@ RSpec.describe Api::ResourcesController, type: :controller do
   let(:valid_attributes) { attributes_for(:product_resource)[:content] }
   let(:model_attributes) { attributes_for(:product_resource, definition_model_id: product_definition.id) }
   let(:invalid_attributes) do
-    { model_slug: :other_models, api_resource: attributes_for(:product_resource, definition_model_id: nil) }
+    {
+      model_slug: product_definition.slug,
+      api_resource: attributes_for(:product_resource,
+                                   definition_model_id: nil,
+                                   amount: 'invalid amount')
+     }
   end
   let(:valid_session) { {} }
   let(:default_params) { { model_slug: product_definition.slug } }
@@ -67,7 +72,7 @@ RSpec.describe Api::ResourcesController, type: :controller do
           put :update, params: default_params.merge(api_resource: update_attributes, id: model.id), session: valid_session
         }.to change { model.reload.content }.
              from(valid_attributes.stringify_keys).
-             to(update_attributes.stringify_keys.transform_values(&:to_s))
+             to(update_attributes.stringify_keys)
       end
 
       it "renders a JSON response with the definition_model" do
@@ -80,10 +85,10 @@ RSpec.describe Api::ResourcesController, type: :controller do
     end
 
     context "with invalid params" do
-      xit "renders a JSON response with errors for the definition_model" do
+      it "renders a JSON response with errors for the definition_model" do
         model = Api::Resource.create! model_attributes
 
-        put :update, params: invalid_attributes.merge({ id: model.to_param }), session: valid_session
+        put :update, params: invalid_attributes.merge({ id: model.id }), session: valid_session
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.content_type).to eq('application/json')
       end
