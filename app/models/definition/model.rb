@@ -15,4 +15,12 @@ class Definition::Model < ApplicationRecord
             uniqueness: true
 
   accepts_nested_attributes_for :definition_attributes, allow_destroy: true, reject_if: :blank?
+
+  before_save :generate_slug
+
+  private
+
+  def generate_slug
+    self.slug = name.underscore.pluralize
+  end
 end

@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Definition::Model, type: :model do
+  subject { build :definition_model }
+
   describe 'validations' do
-    subject { build :definition_model }
     it { is_expected.to validate_presence_of :name }
     it { is_expected.to validate_uniqueness_of :name }
   end
@@ -26,6 +27,14 @@ RSpec.describe Definition::Model, type: :model do
       it do
         is_expected.to accept_nested_attributes_for(:definition_attributes).
                        allow_destroy(true)
+      end
+    end
+  end
+
+  describe 'before_save' do
+    describe '#generate_slug' do
+      it 'slug is generate on save' do
+        expect { subject.save }.to change(subject, :slug).from(nil).to(subject.name.underscore.pluralize)
       end
     end
   end

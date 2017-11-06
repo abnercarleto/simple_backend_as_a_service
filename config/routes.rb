@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  namespace :api do
+    resources :resources, path: 'resources/:model_slug'
+  end
   namespace :definition do
     resources :models
   end
