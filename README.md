@@ -12,9 +12,9 @@ A aplicação usa:
 
 Instalar
 ---
-Instalar RVM - https://rvm.io/rvm/install
-Instalar docker - https://docs.docker.com/engine/installation/
-Instalar docker compose - https://docs.docker.com/compose/install/#install-compose
+- Instalar RVM - https://rvm.io/rvm/install
+- Instalar docker - https://docs.docker.com/engine/installation/
+- Instalar docker compose - https://docs.docker.com/compose/install/#install-compose
 
 Executar
 ---
