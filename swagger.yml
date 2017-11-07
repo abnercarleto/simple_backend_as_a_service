@@ -1,0 +1,155 @@
+swagger: '2.0'
+info:
+  description: The smallest backend as a service
+  version: 1.0.0
+  title: XY-inc
+
+paths:
+  /definition/models:
+    get:
+      summary: list all models
+      produces:
+      - application/json
+      responses:
+        200:
+          description: list all models
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Definition::Model'
+    post:
+      summary: create a new model
+      parameters:
+      - in: body
+        name: definition_model
+        required: true
+        schema:
+          $ref: '#/definitions/Definition::Model'
+      produces:
+      - application/json
+      responses:
+        201:
+          description: created
+        422:
+          description: unprocessable entity
+  /definition/models/:id:
+    get:
+      summary: list a model
+      produces:
+      - application/json
+      responses:
+        200:
+          description: list a model
+          schema:
+            $ref: '#/definitions/Definition::Model'
+    patch:
+      summary: update a model
+      parameters:
+      - in: body
+        name: definition_model
+        required: true
+        schema:
+          $ref: '#/definitions/Definition::Model'
+      produces:
+      - application/json
+      responses:
+        200:
+          description: ok
+        422:
+          description: unprocessable entity
+    delete:
+      summary: destroy a model
+      responses:
+        200:
+          description: ok
+
+  /api/resources/:model_slug:
+    get:
+      summary: list all resources corresponding a model slug
+      produces:
+      - application/json
+      responses:
+        200:
+          description: list all resources
+    post:
+      summary: create a new model
+      parameters:
+      - in: body
+        name: api_resource
+        description: a resource difined by Definition::Model
+        required: true
+        schema:
+          type: string
+          format: json
+      produces:
+      - application/json
+      responses:
+        201:
+          description: created
+        422:
+          description: unprocessable entity
+  /api/resources/:model_slug/:id:
+    get:
+      summary: a resource corresponding a model slug
+      produces:
+      - application/json
+      responses:
+        200:
+          description: a resource
+    patch:
+      summary: update resource
+      parameters:
+      - in: body
+        name: api_resource
+        description: a resource difined by Definition::Model
+        required: true
+        schema:
+          type: string
+          format: json
+      responses:
+        200:
+          description: OK
+    delete:
+      summary: destroy a resource
+      responses:
+        200:
+          description: OK
+
+definitions:
+  Definition::Model:
+    type: object
+    required:
+    - name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      slug:
+        type: string
+      definition_attributes:
+        type: array
+        items:
+          $ref: '#/definitions/Definition::Attribute'
+  Definition::Attribute:
+    type: object
+    properties:
+      name:
+        type: string
+      kind_cd:
+        type: integer
+        description: |
+          Use range 0..4 where:
+          - 0 = int
+          - 1 = decimal
+          - 2 = string
+          - 3 = date
+          - 4 = datetime
+      kind:
+        type: string
+        enum:
+          - int
+          - decimal
+          - string
+          - date
+          - datetime
